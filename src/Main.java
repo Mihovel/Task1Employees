@@ -134,9 +134,8 @@ public class Main {
 
         }
 
-        for (int i = 0; i < subsetsAsStringsForCurrentSector.length; i++) {
+        for (String currentString : subsetsAsStringsForCurrentSector) {
 
-            String currentString = subsetsAsStringsForCurrentSector[i]; //для того, чтобы рассматривать именно эту строку
             List<Integer> listOfChosen = new ArrayList<>(); //позиции единицы в строке
             int exchanging = 0; //число рабочих, которых перебрасваем из одного отдела в другой
 
@@ -152,9 +151,9 @@ public class Main {
             }
 
             String sectorOfFirstEmployeeForChecking = suitableListForCurrentSector.get(listOfChosen.get(0)).getEmployeesSector();
-            boolean check = listOfChosen.stream().allMatch(x -> suitableListForCurrentSector.get(x).getEmployeesSector().equals(sectorOfFirstEmployeeForChecking));
+            boolean isTheSameSector = listOfChosen.stream().allMatch(x -> suitableListForCurrentSector.get(x).getEmployeesSector().equals(sectorOfFirstEmployeeForChecking));
 
-            if (check) {
+            if (isTheSameSector) {
 
                 List<Record> checkingEmployeesFromOneSector = new ArrayList<>();
 
@@ -193,7 +192,7 @@ public class Main {
                 if (countEmployeesInExchangeSector - exchanging != 0) {
 
                     boolean ch = (averageWageInCurrentSector < ((averageWageInCurrentSector * countEmployeesInCurrentSector + WageOfAllEmployeesInCurrentSector) / (countEmployeesInCurrentSector + exchanging)) & (averageWageInExchangeSector < (averageWageInExchangeSector * countEmployeesInExchangeSector - WageOfAllEmployeesInExchangeSector) / (countEmployeesInExchangeSector - exchanging)));
-
+                                                                                                                                //TODO Исправить эту цифру, добавить её как переменную
                     if (ch) {
 
                         for (Integer integer : listOfChosen) {
