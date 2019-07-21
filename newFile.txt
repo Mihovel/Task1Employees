@@ -1,0 +1,36 @@
+Software engineering
+1
+Goncharov
+998
+Software engineering
+2
+Safonov
+998
+Software engineering
+3
+Ternovoy
+999
+Adjustment
+1
+Yakunin
+999
+Adjustment
+2
+Korolev
+999
+Adjustment
+3
+BetterAdjuster
+1000
+Consulting
+1
+Maksimova
+799
+Consulting
+2
+Verin
+899
+Consulting
+3
+BetterConsultant
+999
