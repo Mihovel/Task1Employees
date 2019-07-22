@@ -2,7 +2,6 @@ import java.io.*;
 import java.util.*;
 import java.nio.file.*;
 
-
 public class Main {
 
     static ArrayList<Record> listOfRecords = new ArrayList<>();
@@ -191,14 +190,20 @@ public class Main {
                 int averageWageInCurrentSector = WageOfAllEmployeesInCurrentSector / countEmployeesInCurrentSector;
                 int averageWageInExchangeSector = WageOfAllEmployeesInExchangeSector / countEmployeesInExchangeSector;
 
-                if (averageWageInCurrentSector < (((averageWageInCurrentSector * countEmployeesInCurrentSector + WageOfAllEmployeesInCurrentSector) / (countEmployeesInCurrentSector + exchanging))) && (averageWageInExchangeSector < (averageWageInExchangeSector * countEmployeesInExchangeSector - WageOfAllEmployeesInExchangeSector) / (countEmployeesInExchangeSector - exchanging))) {
+                if (countEmployeesInExchangeSector - exchanging != 0) {
 
-                    for (Integer integer : listOfChosen) {
+                    boolean ch = (averageWageInCurrentSector < ((averageWageInCurrentSector * countEmployeesInCurrentSector + WageOfAllEmployeesInCurrentSector) / (countEmployeesInCurrentSector + exchanging)) & (averageWageInExchangeSector < (averageWageInExchangeSector * countEmployeesInExchangeSector - WageOfAllEmployeesInExchangeSector) / (countEmployeesInExchangeSector - exchanging)));
 
-                        System.out.println(suitableListForCurrentSector.get(integer).toString() + "to " + currentSector);
+                    if (ch) {
+
+                        for (Integer integer : listOfChosen) {
+
+                            System.out.println(suitableListForCurrentSector.get(integer).toString() + " to " + currentSector);
+
+                        }
+
 
                     }
-
 
                 }
 
