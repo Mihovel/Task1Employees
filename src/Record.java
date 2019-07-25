@@ -26,6 +26,12 @@ class Record {
 
     }
 
+    public String getEmployeesSurname() {
+
+        return employeesSurname;
+
+    }
+
     @Override
     public String toString() {
 

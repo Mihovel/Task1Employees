@@ -7,16 +7,18 @@ public class Main {
     static ArrayList<Record> listOfRecords = new ArrayList<>();
     static ArrayList<String> listOfSectors = new ArrayList<>();
     static ArrayList<Integer> listOfEmployeesInSector = new ArrayList<>();
+    static ArrayList<String> listOfBestExchanges = new ArrayList<>();
+    static String nameOfFileBestExchanges = "bestExchanges.txt";
 
     public static void fillArrayList() {
 
-        listOfRecords.add(new Record("Software engineering", "1", "Goncharov", 998));
-        listOfRecords.add(new Record("Software engineering", "2", "Safonov", 998));
-        listOfRecords.add(new Record("Software engineering", "3", "Ternovoy", 999));
+        listOfRecords.add(new Record("Software engineering", "1", "Goncharov", 600));
+        listOfRecords.add(new Record("Software engineering", "2", "Safonov", 600));
+        listOfRecords.add(new Record("Software engineering", "3", "Ternovoy", 600));
 
         listOfRecords.add(new Record("Adjustment", "1", "Yakunin", 999));
         listOfRecords.add(new Record("Adjustment", "2", "Korolev", 999));
-        listOfRecords.add(new Record("Adjustment", "3", "BetterAdjuster", 1000));
+        listOfRecords.add(new Record("Adjustment", "3", "BetterAdjuster", 10000));
 
         listOfRecords.add(new Record("Consulting", "1", "Maksimova", 799));
         listOfRecords.add(new Record("Consulting", "2", "Verin", 899));
@@ -82,7 +84,7 @@ public class Main {
 
     }
 
-    public static void bestExchanges() {
+    public static void bestExchanges() throws IOException {
 
         for (int i = 0; i < listOfSectors.size(); i++) {
 
@@ -104,6 +106,32 @@ public class Main {
 
         }
 
+    }
+
+    public static String correctString(List<Record> suitableListForCurrentSector, String currentString, String currentSector) {
+
+        String returnAllSurnames = "";
+
+        for (int i = 0; i < currentString.length(); i++) {
+
+            if (Character.toString(currentString.charAt(i)).equals("1")) {
+
+                returnAllSurnames = returnAllSurnames + suitableListForCurrentSector.get(i).getEmployeesSurname() + " , ";
+
+            }
+
+        }
+
+        String result = "";
+
+        for (int i = 0; i < returnAllSurnames.length() - 2; i++) {
+
+            result += Character.toString(returnAllSurnames.charAt(i));
+
+        }
+
+
+        return result + "to " + currentSector;
 
     }
 
@@ -138,6 +166,8 @@ public class Main {
 
             List<Integer> listOfChosen = new ArrayList<>(); //позиции единицы в строке
             int exchanging = 0; //число рабочих, которых перебрасваем из одного отдела в другой
+            /* FIXED */
+            int countSumOfExchangingEmployees = 0;
 
             for (int j = 0; j < currentString.length(); j++) {
 
@@ -145,6 +175,8 @@ public class Main {
 
                     listOfChosen.add(j);
                     exchanging++;
+                    /* FIXED */
+                    countSumOfExchangingEmployees = countSumOfExchangingEmployees + suitableListForCurrentSector.get(j).getEmployeesWage();
 
                 }
 
@@ -191,16 +223,12 @@ public class Main {
 
                 if (countEmployeesInExchangeSector - exchanging != 0) {
 
-                    boolean ch = (averageWageInCurrentSector < ((averageWageInCurrentSector * countEmployeesInCurrentSector + WageOfAllEmployeesInCurrentSector) / (countEmployeesInCurrentSector + exchanging)) & (averageWageInExchangeSector < (averageWageInExchangeSector * countEmployeesInExchangeSector - WageOfAllEmployeesInExchangeSector) / (countEmployeesInExchangeSector - exchanging)));
-                                                                                                                                //TODO Исправить эту цифру, добавить её как переменную
+                    /* FIXED */
+                    boolean ch = (averageWageInCurrentSector < ((averageWageInCurrentSector * countEmployeesInCurrentSector + countSumOfExchangingEmployees) / (countEmployeesInCurrentSector + exchanging)) & (averageWageInExchangeSector < (averageWageInExchangeSector * countEmployeesInExchangeSector - countSumOfExchangingEmployees) / (countEmployeesInExchangeSector - exchanging)));
+                    //TODO Исправить эту цифру, добавить её как переменную
                     if (ch) {
 
-                        for (Integer integer : listOfChosen) {
-
-                            System.out.println(suitableListForCurrentSector.get(integer).toString() + " to " + currentSector);
-
-                        }
-
+                        listOfBestExchanges.add(correctString(suitableListForCurrentSector, currentString, currentSector));
 
                     }
 
@@ -210,7 +238,40 @@ public class Main {
 
         }
 
-        System.out.println("============================================================="); //для выделения секторов
+    }
+
+    public static void writeFileOfBestExchanges(List<String> listOfBestExchanges) throws IOException {
+
+        for (String listOfBestExchange : listOfBestExchanges) {
+            System.out.println(listOfBestExchange);
+        }
+
+        File fv = new File(nameOfFileBestExchanges);
+
+        if (!fv.exists()) {
+
+            fv.createNewFile();
+            FileWriter writer = new FileWriter(nameOfFileBestExchanges);
+            for (String listOfBestExchange : listOfBestExchanges) {
+
+                writer.write(listOfBestExchange + System.lineSeparator());
+
+            }
+
+        } else {
+
+            PrintWriter pw = new PrintWriter(fv);
+            pw.print("");
+            pw.close();
+
+            FileWriter writer = new FileWriter(nameOfFileBestExchanges);
+            for (String listOfBestExchange : listOfBestExchanges) {
+
+                writer.write(listOfBestExchange + System.lineSeparator());
+
+            }
+
+        }
 
     }
 
@@ -240,9 +301,13 @@ public class Main {
 
         averageWages();
 
-        System.out.println("........................");
+        System.out.println("........................\n");
+
+        System.out.println("Best exchanges: \n");
 
         bestExchanges();
+
+        writeFileOfBestExchanges(listOfBestExchanges);
 
     }
 

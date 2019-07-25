@@ -1,15 +1,15 @@
 Software engineering
 1
 Goncharov
-998
+600
 Software engineering
 2
 Safonov
-998
+600
 Software engineering
 3
 Ternovoy
-999
+600
 Adjustment
 1
 Yakunin
@@ -21,7 +21,7 @@ Korolev
 Adjustment
 3
 BetterAdjuster
-1000
+10000
 Consulting
 1
 Maksimova
